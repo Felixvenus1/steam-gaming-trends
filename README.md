@@ -17,20 +17,39 @@ Three staged notebooks:
 ```bash
 pip install -r requirements.txt
 
-# 1. Download data (requires Kaggle CLI configured with ~/.kaggle/kaggle.json)
-python data/download_data.py
+# 1. Fetch data from Steam's free public API (no account needed)
+python data/fetch_steam_public.py
+#    ...or, if you have a Kaggle account, the larger dataset:
+#    python data/download_data.py
 
 # 2. Run notebooks in order
 jupyter lab
 ```
 
+The committed notebooks are already executed against real Steam data, so all
+charts render directly on GitHub.
+
 ## Data Source
 
-Kaggle dataset **fronkongames/steam-games-dataset** (CC0 Public Domain):
-- `games.csv` — 27 000+ games with price, genres, review counts, playtime
-- `recommendations.csv` — 41 M+ individual user reviews with text and recommended flag
+The default fetcher (`data/fetch_steam_public.py`) uses Steam's **public web API**
+— no API key or Kaggle account required:
 
-Raw files are git-ignored; `data/download_data.py` fetches and unzips them.
+- `store.steampowered.com/api/appdetails` — price, genres, release date per game
+- `store.steampowered.com/appreviews/<id>` — review text + the user's recommended flag
+
+For a curated set of ~40 popular titles it produces:
+
+- `games.csv` — game-level metadata + global review counts (`positive`, `negative`, `median_playtime_forever`, `genres`, `release_date`)
+- `recommendations.csv` — ~4 800 individual English reviews (`review`, `is_recommended`)
+
+A Kaggle path (`data/download_data.py`, dataset **fronkongames/steam-games-dataset**)
+remains available for a much larger sample. Raw files are git-ignored.
+
+## Selected Figures
+
+![Top genres](outputs/figures/eda01_top_genres.png)
+
+![VADER vs ground truth](outputs/figures/sent01_confusion_matrix.png)
 
 ## Feature Engineering
 
