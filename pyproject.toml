@@ -1,0 +1,11 @@
+[project]
+name = "steam-gaming-trends"
+version = "0.1.0"
+description = "EDA and baseline sentiment analysis on Steam games and reviews data"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

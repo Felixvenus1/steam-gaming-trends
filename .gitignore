@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+.DS_Store
+.venv/
+.pytest_cache/
+.ipynb_checkpoints/
+data/*.csv
+data/*.parquet
+data/*.xlsx
+data/*.zip
+outputs/figures/*.png
+outputs/figures/*.svg
+outputs/*.parquet
