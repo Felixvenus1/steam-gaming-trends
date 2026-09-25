@@ -3,7 +3,7 @@
 For a curated list of popular app IDs this fetches:
 
 * game-level metadata + review summary  -> data/games.csv
-* individual English review text + the user's "recommended" flag -> data/reviews.csv
+* individual English review text + the user's "recommended" flag -> data/recommendations.csv
 
 Endpoints used (public, no API key required):
   * https://store.steampowered.com/api/appdetails?appids=<id>
@@ -42,7 +42,9 @@ def get_appdetails(appid: int) -> dict | None:
     r = requests.get(url, params={"appids": appid, "cc": "us", "l": "en"},
                      headers=HEADERS, timeout=30)
     r.raise_for_status()
-    payload = r.json().get(str(appid), {})
+    body = r.json() or {}
+    # Steam sometimes keys the response by a different id than the one requested.
+    payload = body.get(str(appid)) or next(iter(body.values()), {})
     if not payload.get("success"):
         return None
     return payload["data"]
